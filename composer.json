@@ -1,0 +1,23 @@
+{
+    "name": "mateuszmesek-magento2/module-document",
+    "description": "N/A",
+    "type": "magento2-module",
+    "require": {
+        "ext-dom": "*",
+        "magento/framework": "*"
+    },
+    "replace": {
+        "mateuszmesek-magento2/module-document": "*"
+    },
+    "license": [
+        "MIT"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MateuszMesek\\Document\\": "src"
+        }
+    }
+}
