@@ -4,7 +4,8 @@
     "type": "magento2-module",
     "require": {
         "ext-dom": "*",
-        "magento/framework": "*"
+        "magento/framework": "*",
+        "mateuszmesek-magento2/module-document-data-api": "*"
     },
     "replace": {
         "mateuszmesek-magento2/module-document-data": "*"
