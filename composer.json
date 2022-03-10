@@ -5,6 +5,7 @@
     "require": {
         "ext-dom": "*",
         "magento/framework": "*",
+        "mateuszmesek-magento2/framework-config": "*",
         "mateuszmesek-magento2/module-document-data-api": "*"
     },
     "license": [
