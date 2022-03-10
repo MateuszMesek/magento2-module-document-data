@@ -7,9 +7,6 @@
         "magento/framework": "*",
         "mateuszmesek-magento2/module-document-data-api": "*"
     },
-    "replace": {
-        "mateuszmesek-magento2/module-document-data": "*"
-    },
     "license": [
         "MIT"
     ],
