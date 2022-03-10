@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Config;
+namespace MateuszMesek\DocumentData\Config;
 
-use DOMNode;
 use Magento\Framework\Config\ConverterInterface;
-use MateuszMesek\Document\Config\Converter\ItemsResolver;
-use MateuszMesek\Document\Config\Converter\ProcessorInterface;
+use MateuszMesek\Framework\Config\Converter\ItemsResolver;
+use MateuszMesek\Framework\Config\Converter\ProcessorInterface;
 
 class Converter implements ConverterInterface
 {
@@ -23,11 +22,16 @@ class Converter implements ConverterInterface
 
     public function convert($source): array
     {
-        return array_map(
-            function (DOMNode $item) {
-                return $this->documentProcessor->process($item);
-            },
-            $this->itemsResolver->resolve($source, 'document')
-        );
+        $data = [];
+
+        $items = $this->itemsResolver->resolve($source, 'document');
+
+        foreach ($items as $item) {
+            $documentData = $this->documentProcessor->process($item);
+
+            $data[$documentData['name']] = $documentData;
+        }
+
+        return $data;
     }
 }

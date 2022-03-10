@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Command;
+namespace MateuszMesek\DocumentData\Command;
 
-use Generator;
-use MateuszMesek\Document\Api\Command\GetDocumentNodesInterface;
-use MateuszMesek\Document\Command\GetDocumentNodes\ResolverPool;
+use Traversable;
+use MateuszMesek\DocumentDataApi\Command\GetDocumentNodesInterface;
+use MateuszMesek\DocumentData\Command\GetDocumentNodes\ResolverPool;
 
 class GetDocumentNodes implements GetDocumentNodesInterface
 {
@@ -17,8 +17,8 @@ class GetDocumentNodes implements GetDocumentNodesInterface
         $this->resolverPool = $resolverPool;
     }
 
-    public function execute(string $document): Generator
+    public function execute(string $documentName): Traversable
     {
-        yield from $this->resolverPool->get($document)->resolve();
+        yield from $this->resolverPool->get($documentName)->resolve();
     }
 }

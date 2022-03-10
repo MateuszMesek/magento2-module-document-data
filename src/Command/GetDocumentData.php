@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Command;
+namespace MateuszMesek\DocumentData\Command;
 
 use Magento\Framework\Stdlib\ArrayManager;
-use MateuszMesek\Document\Api\Command\GetDocumentDataInterface;
-use MateuszMesek\Document\Api\Command\GetDocumentNodesInterface;
-use MateuszMesek\Document\Api\Command\GetDocumentNodeValueInterface;
-use MateuszMesek\Document\Api\InputInterface;
-use MateuszMesek\Document\Data\DocumentNodeFactory;
+use MateuszMesek\DocumentDataApi\Command\GetDocumentDataInterface;
+use MateuszMesek\DocumentDataApi\Command\GetDocumentNodesInterface;
+use MateuszMesek\DocumentDataApi\Command\GetDocumentNodeValueInterface;
+use MateuszMesek\DocumentDataApi\InputInterface;
+use MateuszMesek\DocumentData\Data\DocumentNodeFactory;
 
 class GetDocumentData implements GetDocumentDataInterface
 {
@@ -29,16 +29,18 @@ class GetDocumentData implements GetDocumentDataInterface
         $this->arrayManager = $arrayManager;
     }
 
-    public function execute(string $document, InputInterface $input): array
+    public function execute(string $documentName, InputInterface $input): array
     {
-        $data = [];
-        $nodes = $this->getDocumentNodes->execute($document);
+        $data = [
+            'id' => $input->getId()
+        ];
+        $nodes = $this->getDocumentNodes->execute($documentName);
 
         foreach ($nodes as $node) {
             $documentNode = $this->documentNodeFactory->create(array_merge(
                 $node,
                 [
-                    'document' => $document
+                    'document' => $documentName
                 ]
             ));
 

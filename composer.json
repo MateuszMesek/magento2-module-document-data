@@ -1,5 +1,5 @@
 {
-    "name": "mateuszmesek-magento2/module-document",
+    "name": "mateuszmesek-magento2/module-document-data",
     "description": "N/A",
     "type": "magento2-module",
     "require": {
@@ -7,7 +7,7 @@
         "magento/framework": "*"
     },
     "replace": {
-        "mateuszmesek-magento2/module-document": "*"
+        "mateuszmesek-magento2/module-document-data": "*"
     },
     "license": [
         "MIT"
@@ -17,7 +17,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "MateuszMesek\\Document\\": "src"
+            "MateuszMesek\\DocumentData\\": "src"
         }
     }
 }

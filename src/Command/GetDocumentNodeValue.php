@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Command;
+namespace MateuszMesek\DocumentData\Command;
 
-use MateuszMesek\Document\Api\Command\GetDocumentNodeValueInterface;
-use MateuszMesek\Document\Api\Data\DocumentNodeInterface;
-use MateuszMesek\Document\Api\InputInterface;
-use MateuszMesek\Document\Command\GetDocumentNodeValue\ResolverFactory;
+use MateuszMesek\DocumentDataApi\Command\GetDocumentNodeValueInterface;
+use MateuszMesek\DocumentDataApi\Data\DocumentNodeInterface;
+use MateuszMesek\DocumentDataApi\InputInterface;
+use MateuszMesek\DocumentData\Command\GetDocumentNodeValue\ResolverFactory;
 
 class GetDocumentNodeValue implements GetDocumentNodeValueInterface
 {
@@ -20,8 +20,6 @@ class GetDocumentNodeValue implements GetDocumentNodeValueInterface
 
     public function execute(DocumentNodeInterface $documentNode, InputInterface $input)
     {
-        $resolver = $this->resolverFactory->create($documentNode->getResolver());
-
-        return $resolver->resolve($input);
+        return $this->resolverFactory->create($documentNode->getValueResolver())->resolve($input);
     }
 }

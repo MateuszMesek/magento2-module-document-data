@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Command\GetDocumentNodeValue;
+namespace MateuszMesek\DocumentData\Command\GetDocumentNodeValue;
 
 use Magento\Framework\ObjectManagerInterface;
-use MateuszMesek\Document\Api\DocumentNodeValueResolverInterface;
+use MateuszMesek\DocumentDataApi\DocumentNodeValueResolverInterface;
 
 class ResolverFactory
 {

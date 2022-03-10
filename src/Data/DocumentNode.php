@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Data;
+namespace MateuszMesek\DocumentData\Data;
 
-use MateuszMesek\Document\Api\Data\DocumentNodeInterface;
+use MateuszMesek\DocumentDataApi\Data\DocumentNodeInterface;
 
 class DocumentNode implements DocumentNodeInterface
 {
@@ -11,17 +11,17 @@ class DocumentNode implements DocumentNodeInterface
     /**
      * @var mixed
      */
-    private $resolver;
+    private $valueResolver;
 
     public function __construct(
         string $document,
         string $path,
-        $resolver
+        $valueResolver
     )
     {
         $this->document = $document;
         $this->path = $path;
-        $this->resolver = $resolver;
+        $this->valueResolver = $valueResolver;
     }
 
     public function getDocument(): string
@@ -34,8 +34,8 @@ class DocumentNode implements DocumentNodeInterface
         return $this->path;
     }
 
-    public function getResolver()
+    public function getValueResolver()
     {
-        return $this->resolver;
+        return $this->valueResolver;
     }
 }

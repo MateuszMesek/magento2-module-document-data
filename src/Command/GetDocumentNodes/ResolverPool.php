@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Command\GetDocumentNodes;
+namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
 
 use Magento\Framework\ObjectManager\TMap;
 use Magento\Framework\ObjectManager\TMapFactory;
-use MateuszMesek\Document\Api\DocumentNodesResolverInterface;
+use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
 
 class ResolverPool
 {
@@ -21,8 +21,8 @@ class ResolverPool
         ]);
     }
 
-    public function get(string $document): DocumentNodesResolverInterface
+    public function get(string $documentName): DocumentNodesResolverInterface
     {
-        return $this->documents[$document];
+        return $this->documents[$documentName];
     }
 }

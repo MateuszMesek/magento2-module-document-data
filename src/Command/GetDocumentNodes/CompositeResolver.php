@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Command\GetDocumentNodes;
+namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
 
 use Generator;
 use Magento\Framework\ObjectManager\TMap;
 use Magento\Framework\ObjectManager\TMapFactory;
-use MateuszMesek\Document\Api\DocumentNodesResolverInterface;
+use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
 
 class CompositeResolver implements DocumentNodesResolverInterface
 {

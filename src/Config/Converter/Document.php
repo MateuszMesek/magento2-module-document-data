@@ -1,8 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Config\Converter;
+namespace MateuszMesek\DocumentData\Config\Converter;
 
 use DOMNode;
+use MateuszMesek\Framework\Config\Converter\AttributeValueResolver;
+use MateuszMesek\Framework\Config\Converter\ItemsResolver;
+use MateuszMesek\Framework\Config\Converter\ProcessorInterface;
 
 class Document implements ProcessorInterface
 {
@@ -23,14 +26,19 @@ class Document implements ProcessorInterface
 
     public function process(DOMNode $node): array
     {
-        return [
+        $data = [
             'name' => $this->attributeValueResolver->resolve($node, 'name'),
-            'nodes' => array_map(
-                function (DOMNode $node) {
-                    return $this->nodeProcessor->process($node);
-                },
-                $this->itemsResolver->resolve($node, 'node')
-            )
+            'nodes' => []
         ];
+
+        $items = $this->itemsResolver->resolve($node, 'node');
+
+        foreach ($items as $item) {
+            $nodeData = $this->nodeProcessor->process($item);
+
+            $data['nodes'][$nodeData['path']] = $nodeData;
+        }
+
+        return $data;
     }
 }

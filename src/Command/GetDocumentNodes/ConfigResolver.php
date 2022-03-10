@@ -1,28 +1,28 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\Document\Command\GetDocumentNodes;
+namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
 
 use Generator;
-use MateuszMesek\Document\Api\DocumentNodesResolverInterface;
-use MateuszMesek\Document\Config;
+use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
+use MateuszMesek\DocumentData\Config;
 
 class ConfigResolver implements DocumentNodesResolverInterface
 {
     private Config $config;
-    private string $document;
+    private string $documentName;
 
     public function __construct(
         Config $config,
-        string $document
+        string $documentName
     )
     {
         $this->config = $config;
-        $this->document = $document;
+        $this->documentName = $documentName;
     }
 
     public function resolve(): Generator
     {
-        $nodes = $this->config->getDocumentNodes($this->document);
+        $nodes = $this->config->getDocumentNodes($this->documentName);
 
         foreach ($nodes as $node) {
             yield $node;
