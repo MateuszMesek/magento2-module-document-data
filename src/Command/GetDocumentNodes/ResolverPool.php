@@ -2,6 +2,7 @@
 
 namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
 
+use InvalidArgumentException;
 use Magento\Framework\ObjectManager\TMap;
 use Magento\Framework\ObjectManager\TMapFactory;
 use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
@@ -23,6 +24,12 @@ class ResolverPool
 
     public function get(string $documentName): DocumentNodesResolverInterface
     {
-        return $this->documents[$documentName];
+        $resolver = $this->documents[$documentName];
+
+        if (!$resolver instanceof DocumentNodesResolverInterface) {
+            throw new InvalidArgumentException("Document data '$documentName' are without nodes");
+        }
+
+        return $resolver;
     }
 }

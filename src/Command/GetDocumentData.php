@@ -31,6 +31,10 @@ class GetDocumentData implements GetDocumentDataInterface
 
     public function execute(string $documentName, InputInterface $input): array
     {
+        if (!$input->getId()) {
+            return [];
+        }
+
         $data = [
             'id' => $input->getId()
         ];
