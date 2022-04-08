@@ -28,7 +28,7 @@ class Node implements ProcessorInterface
     public function process(DOMNode $node): array
     {
         $data = [
-            'name' => $this->attributeValueResolver->resolve($node, 'name')
+            'path' => $this->attributeValueResolver->resolve($node, 'path')
         ];
 
         foreach ($this->childrenResolver->resolve($node) as $child) {
