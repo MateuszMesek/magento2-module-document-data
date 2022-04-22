@@ -13,16 +13,23 @@ class ReflectionResolver implements DocumentNodesResolverInterface
     private MethodsMap $methodsMap;
     private FieldNamer $fieldNamer;
     private string $type;
+    private array $ignoreKeys;
 
     public function __construct(
         MethodsMap $methodsMap,
         FieldNamer $fieldNamer,
-        string $type
+        string $type,
+        array $ignoreKeys = []
     )
     {
         $this->methodsMap = $methodsMap;
         $this->fieldNamer = $fieldNamer;
         $this->type = $type;
+        $this->ignoreKeys = array_keys(
+            array_filter(
+                $ignoreKeys
+            )
+        );
     }
 
     public function resolve(): Generator
@@ -35,6 +42,10 @@ class ReflectionResolver implements DocumentNodesResolverInterface
             }
 
             $key = $this->fieldNamer->getFieldNameForMethodName($methodName);
+
+            if (in_array($key, $this->ignoreKeys, true)) {
+                continue;
+            }
 
             yield [
                 'path' => $key,
