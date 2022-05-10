@@ -30,14 +30,33 @@ class DocumentData implements DocumentDataInterface
 
     public function get(string $path)
     {
-        return $this->arrayManager->get(
-            $path,
-            $this->data
+        return $this->prepareValue(
+            $this->arrayManager->get(
+                $path,
+                $this->data
+            )
         );
     }
 
     public function getData(): array
     {
-        return $this->data;
+        return $this->prepareValue(
+            $this->data
+        );
+    }
+
+    private function prepareValue($input)
+    {
+        if (is_callable($input)) {
+            return $input();
+        }
+
+        if (is_array($input)) {
+            foreach ($input as $key => $value) {
+                $input[$key] = $this->prepareValue($value);
+            }
+        }
+
+        return $input;
     }
 }

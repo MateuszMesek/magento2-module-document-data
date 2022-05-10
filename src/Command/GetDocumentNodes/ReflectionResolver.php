@@ -5,6 +5,7 @@ namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
 use Generator;
 use Magento\Framework\Reflection\FieldNamer;
 use Magento\Framework\Reflection\MethodsMap;
+use MateuszMesek\DocumentData\Command\GetDocumentNodes\ReflectionResolver\DataObjectProcessorFactory;
 use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
 use MateuszMesek\DocumentDataApi\InputInterface;
 
@@ -12,18 +13,21 @@ class ReflectionResolver implements DocumentNodesResolverInterface
 {
     private MethodsMap $methodsMap;
     private FieldNamer $fieldNamer;
+    private DataObjectProcessorFactory $dataObjectProcessorFactory;
     private string $type;
     private array $ignoreKeys;
 
     public function __construct(
         MethodsMap $methodsMap,
         FieldNamer $fieldNamer,
+        DataObjectProcessorFactory $dataObjectProcessorFactory,
         string $type,
         array $ignoreKeys = []
     )
     {
         $this->methodsMap = $methodsMap;
         $this->fieldNamer = $fieldNamer;
+        $this->dataObjectProcessorFactory = $dataObjectProcessorFactory;
         $this->type = $type;
         $this->ignoreKeys = array_keys(
             array_filter(
@@ -56,7 +60,7 @@ class ReflectionResolver implements DocumentNodesResolverInterface
                         return null;
                     }
 
-                    return $instance->{$methodName}();
+                    return $this->getValue($instance, $methodName);
                 },
             ];
         }
@@ -75,5 +79,15 @@ class ReflectionResolver implements DocumentNodesResolverInterface
         }
 
         return null;
+    }
+
+    private function getValue($instance, string $methodName)
+    {
+        $dataObjectProcessor = $this->dataObjectProcessorFactory->create($methodName);
+
+        $data = $dataObjectProcessor->buildOutputDataArray($instance, $this->type);
+        $key = $this->fieldNamer->getFieldNameForMethodName($methodName);
+
+        return $data[$key] ?? null;
     }
 }

@@ -2,42 +2,43 @@
 
 namespace MateuszMesek\DocumentData\Command;
 
-use Magento\Framework\Stdlib\ArrayManager;
 use MateuszMesek\DocumentDataApi\Command\GetDocumentDataInterface;
 use MateuszMesek\DocumentDataApi\Command\GetDocumentNodesInterface;
 use MateuszMesek\DocumentDataApi\Command\GetDocumentNodeValueInterface;
+use MateuszMesek\DocumentDataApi\Data\DocumentDataInterface;
 use MateuszMesek\DocumentDataApi\InputInterface;
+use MateuszMesek\DocumentData\Data\DocumentDataFactory;
 use MateuszMesek\DocumentData\Data\DocumentNodeFactory;
 
 class GetDocumentData implements GetDocumentDataInterface
 {
     private GetDocumentNodesInterface $getDocumentNodes;
     private GetDocumentNodeValueInterface $getDocumentNodeValue;
+    private DocumentDataFactory $documentDataFactory;
     private DocumentNodeFactory $documentNodeFactory;
-    private ArrayManager $arrayManager;
 
     public function __construct(
         GetDocumentNodesInterface $getDocumentNodes,
         GetDocumentNodeValueInterface $getDocumentNodeValue,
-        DocumentNodeFactory $documentNodeFactory,
-        ArrayManager $arrayManager
+        DocumentDataFactory $documentDataFactory,
+        DocumentNodeFactory $documentNodeFactory
     )
     {
         $this->getDocumentNodes = $getDocumentNodes;
         $this->getDocumentNodeValue = $getDocumentNodeValue;
+        $this->documentDataFactory = $documentDataFactory;
         $this->documentNodeFactory = $documentNodeFactory;
-        $this->arrayManager = $arrayManager;
     }
 
-    public function execute(string $documentName, InputInterface $input): array
+    public function execute(string $documentName, InputInterface $input): ?DocumentDataInterface
     {
         if (!$input->getId()) {
-            return [];
+            return null;
         }
 
-        $data = [
-            'id' => $input->getId()
-        ];
+        $documentData = $this->documentDataFactory->create();
+        $documentData->set('id', $input->getId());
+
         $nodes = $this->getDocumentNodes->execute($documentName);
 
         foreach ($nodes as $node) {
@@ -48,13 +49,11 @@ class GetDocumentData implements GetDocumentDataInterface
                 ]
             ));
 
-            $data = $this->arrayManager->set(
-                $node['path'],
-                $data,
-                $this->getDocumentNodeValue->execute($documentNode, $input)
-            );
+            $documentData->set($node['path'], function() use ($documentNode, $input) {
+                return $this->getDocumentNodeValue->execute($documentNode, $input);
+            });
         }
 
-        return $data;
+        return $documentData;
     }
 }
