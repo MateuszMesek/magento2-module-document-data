@@ -47,7 +47,7 @@ class DocumentData implements DocumentDataInterface
 
     private function prepareValue($input)
     {
-        if (is_callable($input)) {
+        if (is_callable($input) && !is_string($input)) {
             return $input();
         }
 
