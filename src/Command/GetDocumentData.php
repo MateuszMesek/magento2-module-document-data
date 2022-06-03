@@ -37,7 +37,6 @@ class GetDocumentData implements GetDocumentDataInterface
         }
 
         $documentData = $this->documentDataFactory->create();
-        $documentData->set('id', $input->getId());
 
         $nodes = $this->getDocumentNodes->execute($documentName);
 
