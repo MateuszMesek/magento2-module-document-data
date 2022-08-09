@@ -16,7 +16,7 @@ class DataObjectProcessorFactory
         $this->objectManager = $objectManager;
     }
 
-    public function create(string $methodName): DataObjectProcessor
+    public function create(string $type, string $methodName): DataObjectProcessor
     {
         return $this->objectManager->create(
             DataObjectProcessor::class,
@@ -24,6 +24,7 @@ class DataObjectProcessorFactory
                 'methodsMapProcessor' => $this->objectManager->create(
                     LimitedMethodsMap::class,
                     [
+                        'type' => $type,
                         'methodName' => $methodName
                     ]
                 )

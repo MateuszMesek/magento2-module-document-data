@@ -83,7 +83,7 @@ class ReflectionResolver implements DocumentNodesResolverInterface
 
     private function getValue($instance, string $methodName)
     {
-        $dataObjectProcessor = $this->dataObjectProcessorFactory->create($methodName);
+        $dataObjectProcessor = $this->dataObjectProcessorFactory->create($this->type, $methodName);
 
         $data = $dataObjectProcessor->buildOutputDataArray($instance, $this->type);
         $key = $this->fieldNamer->getFieldNameForMethodName($methodName);
