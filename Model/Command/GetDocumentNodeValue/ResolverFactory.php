@@ -1,19 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Command\GetDocumentNodeValue;
+namespace MateuszMesek\DocumentData\Model\Command\GetDocumentNodeValue;
 
 use Magento\Framework\ObjectManagerInterface;
-use MateuszMesek\DocumentDataApi\DocumentNodeValueResolverInterface;
+use MateuszMesek\DocumentDataApi\Model\DocumentNodeValueResolverInterface;
 
 class ResolverFactory
 {
-    private ObjectManagerInterface $objectManager;
-
     public function __construct(
-        ObjectManagerInterface $objectManager
+        private readonly ObjectManagerInterface $objectManager
     )
     {
-        $this->objectManager = $objectManager;
     }
 
     public function create($resolver): DocumentNodeValueResolverInterface

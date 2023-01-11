@@ -1,34 +1,29 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
+namespace MateuszMesek\DocumentData\Model\Command\GetDocumentNodes;
 
 use Generator;
 use Magento\Framework\Reflection\FieldNamer;
 use Magento\Framework\Reflection\MethodsMap;
-use MateuszMesek\DocumentData\Command\GetDocumentNodes\ReflectionResolver\DataObjectProcessorFactory;
-use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
-use MateuszMesek\DocumentDataApi\InputInterface;
+use MateuszMesek\DocumentData\Model\Command\GetDocumentNodes\ReflectionResolver\DataObjectProcessorFactory;
+use MateuszMesek\DocumentData\Model\Data\DocumentNodeFactory;
+use MateuszMesek\DocumentDataApi\Model\DocumentNodesResolverInterface;
+use MateuszMesek\DocumentDataApi\Model\InputInterface;
 
 class ReflectionResolver implements DocumentNodesResolverInterface
 {
-    private MethodsMap $methodsMap;
-    private FieldNamer $fieldNamer;
-    private DataObjectProcessorFactory $dataObjectProcessorFactory;
-    private string $type;
     private array $ignoreKeys;
 
     public function __construct(
-        MethodsMap $methodsMap,
-        FieldNamer $fieldNamer,
-        DataObjectProcessorFactory $dataObjectProcessorFactory,
-        string $type,
-        array $ignoreKeys = []
+        private readonly string                     $documentName,
+        private readonly DocumentNodeFactory        $documentNodeFactory,
+        private readonly MethodsMap                 $methodsMap,
+        private readonly FieldNamer                 $fieldNamer,
+        private readonly DataObjectProcessorFactory $dataObjectProcessorFactory,
+        private readonly string                     $type,
+        array                                       $ignoreKeys = []
     )
     {
-        $this->methodsMap = $methodsMap;
-        $this->fieldNamer = $fieldNamer;
-        $this->dataObjectProcessorFactory = $dataObjectProcessorFactory;
-        $this->type = $type;
         $this->ignoreKeys = array_keys(
             array_filter(
                 $ignoreKeys
@@ -51,7 +46,8 @@ class ReflectionResolver implements DocumentNodesResolverInterface
                 continue;
             }
 
-            yield [
+            yield $this->documentNodeFactory->create([
+                'documentName' => $this->documentName,
                 'path' => $key,
                 'valueResolver' => function (InputInterface $input) use ($methodName) {
                     $instance = $this->getInstance($input);
@@ -61,8 +57,8 @@ class ReflectionResolver implements DocumentNodesResolverInterface
                     }
 
                     return $this->getValue($instance, $methodName);
-                },
-            ];
+                }
+            ]);
         }
     }
 

@@ -1,25 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Data;
+namespace MateuszMesek\DocumentData\Model\Data;
 
 use Magento\Framework\Stdlib\ArrayManager;
-use MateuszMesek\DocumentDataApi\Data\DocumentDataInterface;
+use MateuszMesek\DocumentDataApi\Model\Data\DocumentDataInterface;
 
 class DocumentData implements DocumentDataInterface
 {
-    private ArrayManager $arrayManager;
-    private array $data;
-
     public function __construct(
-        ArrayManager $arrayManager,
-        array $data = []
+        private readonly ArrayManager $arrayManager,
+        private array                 $data = []
     )
     {
-        $this->arrayManager = $arrayManager;
-        $this->data = $data;
     }
 
-    public function set(string $path, $value): void
+    public function set(string $path, mixed $value): void
     {
         $this->data = $this->arrayManager->set(
             $path,
@@ -28,7 +23,7 @@ class DocumentData implements DocumentDataInterface
         );
     }
 
-    public function get(string $path)
+    public function get(string $path): mixed
     {
         return $this->prepareValue(
             $this->arrayManager->get(
@@ -45,7 +40,7 @@ class DocumentData implements DocumentDataInterface
         );
     }
 
-    private function prepareValue($input)
+    private function prepareValue(mixed $input): mixed
     {
         if (is_callable($input) && !is_string($input)) {
             return $input();

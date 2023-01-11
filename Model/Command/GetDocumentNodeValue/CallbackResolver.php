@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Command\GetDocumentNodeValue;
+namespace MateuszMesek\DocumentData\Model\Command\GetDocumentNodeValue;
 
-use MateuszMesek\DocumentDataApi\DocumentNodeValueResolverInterface;
-use MateuszMesek\DocumentDataApi\InputInterface;
+use MateuszMesek\DocumentDataApi\Model\DocumentNodeValueResolverInterface;
+use MateuszMesek\DocumentDataApi\Model\InputInterface;
 
 class CallbackResolver implements DocumentNodeValueResolverInterface
 {
@@ -16,7 +16,7 @@ class CallbackResolver implements DocumentNodeValueResolverInterface
         $this->callback = $callback;
     }
 
-    public function resolve(InputInterface $input)
+    public function resolve(InputInterface $input): mixed
     {
         return call_user_func($this->callback, $input);
     }

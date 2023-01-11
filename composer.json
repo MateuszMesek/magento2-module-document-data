@@ -3,10 +3,11 @@
     "description": "N/A",
     "type": "magento2-module",
     "require": {
+        "php": ">=8.1",
         "ext-dom": "*",
         "magento/framework": "*",
-        "mateuszmesek-magento2/framework-config": "*",
-        "mateuszmesek-magento2/module-document-data-api": "*"
+        "mateuszmesek-magento2/framework-config": "^1.0",
+        "mateuszmesek-magento2/module-document-data-api": "^1.0"
     },
     "license": [
         "MIT"
@@ -16,7 +17,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "MateuszMesek\\DocumentData\\": "src"
+            "MateuszMesek\\DocumentData\\": ""
         }
     }
 }

@@ -1,20 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Command;
+namespace MateuszMesek\DocumentData\Model\Command;
 
 use Traversable;
-use MateuszMesek\DocumentDataApi\Command\GetDocumentNodesInterface;
-use MateuszMesek\DocumentData\Command\GetDocumentNodes\ResolverPool;
+use MateuszMesek\DocumentDataApi\Model\Command\GetDocumentNodesInterface;
+use MateuszMesek\DocumentData\Model\Command\GetDocumentNodes\ResolverPool;
 
 class GetDocumentNodes implements GetDocumentNodesInterface
 {
-    private ResolverPool $resolverPool;
-
     public function __construct(
-        ResolverPool $resolverPool
+        private readonly ResolverPool $resolverPool
     )
     {
-        $this->resolverPool = $resolverPool;
     }
 
     public function execute(string $documentName): Traversable

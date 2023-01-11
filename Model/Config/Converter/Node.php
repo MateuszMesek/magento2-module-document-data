@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Config\Converter;
+namespace MateuszMesek\DocumentData\Model\Config\Converter;
 
 use DOMNode;
 use MateuszMesek\Framework\Config\Converter\AttributeValueResolver;
@@ -13,16 +13,11 @@ class Node implements ProcessorInterface
         'valueResolver'
     ];
 
-    private AttributeValueResolver $attributeValueResolver;
-    private ChildrenResolver $childrenResolver;
-
     public function __construct(
-        AttributeValueResolver $attributeValueResolver,
-        ChildrenResolver $childrenResolver
+        private readonly AttributeValueResolver $attributeValueResolver,
+        private readonly ChildrenResolver       $childrenResolver
     )
     {
-        $this->attributeValueResolver = $attributeValueResolver;
-        $this->childrenResolver = $childrenResolver;
     }
 
     public function process(DOMNode $node): array

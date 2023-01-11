@@ -1,24 +1,24 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="MateuszMesek\DocumentDataApi\Command\GetDocumentDataInterface" type="MateuszMesek\DocumentData\Command\GetDocumentData"/>
-    <preference for="MateuszMesek\DocumentDataApi\Command\GetDocumentNodesInterface" type="MateuszMesek\DocumentData\Command\GetDocumentNodes"/>
-    <preference for="MateuszMesek\DocumentDataApi\Command\GetDocumentNodeValueInterface" type="MateuszMesek\DocumentData\Command\GetDocumentNodeValue"/>
+    <preference for="MateuszMesek\DocumentDataApi\Model\Command\GetDocumentDataInterface" type="MateuszMesek\DocumentData\Model\Command\GetDocumentData"/>
+    <preference for="MateuszMesek\DocumentDataApi\Model\Command\GetDocumentNodesInterface" type="MateuszMesek\DocumentData\Model\Command\GetDocumentNodes"/>
+    <preference for="MateuszMesek\DocumentDataApi\Model\Command\GetDocumentNodeValueInterface" type="MateuszMesek\DocumentData\Model\Command\GetDocumentNodeValue"/>
 
-    <type name="MateuszMesek\DocumentData\Config">
+    <type name="MateuszMesek\DocumentData\Model\Config">
         <arguments>
-            <argument name="data" xsi:type="object">MateuszMesek\DocumentData\Config\Data</argument>
+            <argument name="data" xsi:type="object">MateuszMesek\DocumentData\Model\Config\Data</argument>
         </arguments>
     </type>
-    <virtualType name="MateuszMesek\DocumentData\Config\Data" type="Magento\Framework\Config\Data">
+    <virtualType name="MateuszMesek\DocumentData\Model\Config\Data" type="Magento\Framework\Config\Data">
         <arguments>
-            <argument name="reader" xsi:type="object">MateuszMesek\DocumentData\Config\Reader</argument>
+            <argument name="reader" xsi:type="object">MateuszMesek\DocumentData\Model\Config\Reader</argument>
             <argument name="cacheId" xsi:type="string">document_data_config_cache</argument>
         </arguments>
     </virtualType>
-    <virtualType name="MateuszMesek\DocumentData\Config\Reader" type="Magento\Framework\Config\Reader\Filesystem">
+    <virtualType name="MateuszMesek\DocumentData\Model\Config\Reader" type="Magento\Framework\Config\Reader\Filesystem">
         <arguments>
-            <argument name="converter" xsi:type="object">MateuszMesek\DocumentData\Config\Converter</argument>
-            <argument name="schemaLocator" xsi:type="object">MateuszMesek\DocumentData\Config\SchemaLocator</argument>
+            <argument name="converter" xsi:type="object">MateuszMesek\DocumentData\Model\Config\Converter</argument>
+            <argument name="schemaLocator" xsi:type="object">MateuszMesek\DocumentData\Model\Config\SchemaLocator</argument>
             <argument name="fileName" xsi:type="string">document_data.xml</argument>
             <argument name="idAttributes" xsi:type="array">
                 <item name="/config/document" xsi:type="string">name</item>
@@ -26,17 +26,17 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="MateuszMesek\DocumentData\Config\Converter">
+    <type name="MateuszMesek\DocumentData\Model\Config\Converter">
         <arguments>
-            <argument name="documentProcessor" xsi:type="object">MateuszMesek\DocumentData\Config\Converter\Document</argument>
+            <argument name="documentProcessor" xsi:type="object">MateuszMesek\DocumentData\Model\Config\Converter\Document</argument>
         </arguments>
     </type>
-    <type name="MateuszMesek\DocumentData\Config\Converter\Document">
+    <type name="MateuszMesek\DocumentData\Model\Config\Converter\Document">
         <arguments>
-            <argument name="nodeProcessor" xsi:type="object">MateuszMesek\DocumentData\Config\Converter\Node</argument>
+            <argument name="nodeProcessor" xsi:type="object">MateuszMesek\DocumentData\Model\Config\Converter\Node</argument>
         </arguments>
     </type>
-    <virtualType name="MateuszMesek\DocumentData\Config\SchemaLocator" type="Magento\Framework\Config\GenericSchemaLocator">
+    <virtualType name="MateuszMesek\DocumentData\Model\Config\SchemaLocator" type="Magento\Framework\Config\GenericSchemaLocator">
         <arguments>
             <argument name="moduleName" xsi:type="string">MateuszMesek_DocumentData</argument>
             <argument name="schema" xsi:type="string">document_data.xsd</argument>

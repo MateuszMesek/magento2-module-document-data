@@ -1,22 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
+namespace MateuszMesek\DocumentData\Model\Command\GetDocumentNodes;
 
 use Generator;
 use Magento\Framework\ObjectManager\TMap;
 use Magento\Framework\ObjectManager\TMapFactory;
-use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
+use MateuszMesek\DocumentDataApi\Model\DocumentNodesResolverInterface;
 
 class CompositeResolver implements DocumentNodesResolverInterface
 {
-    /**
-     * @var TMap|DocumentNodesResolverInterface[]
-     */
     private TMap $resolvers;
 
     public function __construct(
         TMapFactory $TMapFactory,
-        array $resolvers
+        array       $resolvers
     )
     {
         $this->resolvers = $TMapFactory->createSharedObjectsMap([
@@ -30,8 +27,9 @@ class CompositeResolver implements DocumentNodesResolverInterface
         $paths = [];
 
         foreach ($this->resolvers as $resolver) {
-            foreach ($resolver->resolve() as $node) {
-                $path = $node['path'];
+            foreach ($resolver->resolve() as $documentNode) {
+                /** @var \MateuszMesek\DocumentDataApi\Model\Data\DocumentNodeInterface $documentNode */
+                $path = $documentNode->getPath();
 
                 if (isset($paths[$path])) {
                     continue;
@@ -39,7 +37,7 @@ class CompositeResolver implements DocumentNodesResolverInterface
 
                 $paths[$path] = true;
 
-                yield $node;
+                yield $documentNode;
             }
         }
     }

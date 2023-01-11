@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Command\GetDocumentNodes;
+namespace MateuszMesek\DocumentData\Model\Command\GetDocumentNodes;
 
 use InvalidArgumentException;
 use Magento\Framework\ObjectManager\TMap;
 use Magento\Framework\ObjectManager\TMapFactory;
-use MateuszMesek\DocumentDataApi\DocumentNodesResolverInterface;
+use MateuszMesek\DocumentDataApi\Model\DocumentNodesResolverInterface;
 
 class ResolverPool
 {
@@ -13,7 +13,7 @@ class ResolverPool
 
     public function __construct(
         TMapFactory $TMapFactory,
-        array $documents
+        array       $documents
     )
     {
         $this->documents = $TMapFactory->createSharedObjectsMap([

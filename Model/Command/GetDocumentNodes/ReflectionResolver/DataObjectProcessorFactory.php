@@ -1,19 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace MateuszMesek\DocumentData\Command\GetDocumentNodes\ReflectionResolver;
+namespace MateuszMesek\DocumentData\Model\Command\GetDocumentNodes\ReflectionResolver;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Reflection\DataObjectProcessor;
 
 class DataObjectProcessorFactory
 {
-    private ObjectManagerInterface $objectManager;
-
     public function __construct(
-        ObjectManagerInterface $objectManager
+        private readonly ObjectManagerInterface $objectManager
     )
     {
-        $this->objectManager = $objectManager;
     }
 
     public function create(string $type, string $methodName): DataObjectProcessor
