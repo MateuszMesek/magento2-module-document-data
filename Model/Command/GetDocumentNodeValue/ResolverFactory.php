@@ -19,6 +19,10 @@ class ResolverFactory
             return $this->objectManager->get($resolver);
         }
 
+        if ($resolver instanceof DocumentNodeValueResolverInterface) {
+            return $resolver;
+        }
+
         return $this->objectManager->create(
             CallbackResolver::class,
             [
